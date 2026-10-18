@@ -18,3 +18,10 @@ jobs:
           if grep -Eiq '<img|<form|<video' index.html; then echo 'Unexpected media or data form'; exit 1; fi
       - name: Check internal anchor targets
         run: python3 scripts/check_anchors.py
+      - name: Validate editable site template
+        run: |
+          node --check template.js
+          test -s template.html
+          test -s template.css
+          grep -q 'content.hero' template.js
+          grep -q 'bindTabs' template.js
