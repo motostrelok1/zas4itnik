@@ -1,4 +1,4 @@
-name: Validate interface
+name: Validate website
 on:
   push:
     branches: [main, feat/photo-free-study-layout]
@@ -9,19 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate file structure
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify website source
         run: |
           test -s index.html
-          test -s styles.css
-          grep -q 'id="structure"' index.html
-          grep -q 'id="faq"' index.html
-          if grep -Eiq '<img|<form|<video' index.html; then echo 'Unexpected media or data form'; exit 1; fi
-      - name: Check internal anchor targets
-        run: python3 scripts/check_anchors.py
-      - name: Validate editable site template
-        run: |
-          node --check template.js
-          test -s template.html
           test -s template.css
-          grep -q 'content.hero' template.js
-          grep -q 'bindTabs' template.js
+          test -s template.js
+          node --check template.js
+          python3 scripts/check_site.py
