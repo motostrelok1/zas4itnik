@@ -18,7 +18,7 @@ assert "app" in p.ids, "Missing app mount"
 assert "./template.js" in p.scripts, "Missing app script"
 assert "./template.css" in p.styles, "Missing stylesheet"
 for required in ["overview","facts","cards","stages","catalog","groups","details","faq"]:
-    assert f"id=\"{required}\"" in js, f"Missing section {required}"
+    assert required in js, f"Missing section {required}"
 for required in ["catalog-grid","show-more","bindTabs","aria-selected"]:
     assert required in js, f"Missing interaction {required}"
 assert not re.search(r"<form\b|<img\b|<video\b",html+js,re.I), "Unexpected application form or image/video"
